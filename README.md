@@ -37,7 +37,6 @@ WHERE table_name = 'Customer_information';
 -- Data Completeness & Null Check
 
 ```sql
-Copy code
 SELECT COUNT(*) AS total_rows, 
 COUNT(DISTINCT CustomerId) AS unique_customers, 
 SUM(CASE WHEN CustomerId IS NULL THEN 1 ELSE 0 END) AS null_customer_id, 
@@ -47,16 +46,17 @@ SUM(CASE WHEN Gender IS NULL THEN 1 ELSE 0 END) AS null_gender
 FROM Customer_information;
 ```
 
-2.3 Duplicate Detection
-sql
-Copy code
+--Duplicate Detection
+
+```sql
 SELECT CustomerId, COUNT(*) AS count_duplicates 
 FROM customer_information 
 GROUP BY CustomerId
 HAVING COUNT(*) > 1;
-2.4 Summary Statistics for Numerical Columns
-sql
-Copy code
+```
+
+-- Summary Statistics for Numerical Columns
+```sql
 SELECT 
     MIN(CreditScore) AS min_credit, 
     MAX(CreditScore) AS max_credit,
@@ -70,26 +70,30 @@ SELECT
     CONCAT('£', MAX(EstimatedSalary)) AS max_salary, 
     CONCAT('£', ROUND(AVG(EstimatedSalary), 2)) AS avg_salary
 FROM customer_information;
-2.5 Frequency Distributions for Categorical Columns
-Geography Distribution
+```
 
-sql
-Copy code
+-- 2.5 Frequency Distributions for Categorical Columns
+
+-- Geography Distribution
+```sql
 SELECT Geography, COUNT(*) AS count_geo
 FROM customer_information
 GROUP BY Geography
 ORDER BY count_geo DESC;
 Gender Distribution
+```
 
-sql
-Copy code
+-- Gender Distribution
+
+```sql
 SELECT Gender, COUNT(*) AS count_gender 
 FROM customer_information 
 GROUP BY gender;
 Has Credit Card Distribution
+```
 
-sql
-Copy code
+-- Do they have cards? 
+```sql
 SELECT 
 CASE 
 	WHEN HasCrCard = 1 THEN 'Yes'
@@ -105,9 +109,11 @@ CASE
     ELSE 'Unknown' 
 END;
 Active Member Distribution
+```
 
-sql
-Copy code
+-- Are they Active members
+
+```sql
 SELECT 
 CASE 
 	WHEN IsActiveMember = 1 THEN 'Yes'
@@ -122,7 +128,9 @@ GROUP BY
         WHEN IsActiveMember = 0 THEN 'No' 
     ELSE 'Unknown'
 END;
-🧼 3. Data Cleaning
+```
+
+3. Data Cleaning
 3.1 Remove Duplicate Records
 sql
 Copy code

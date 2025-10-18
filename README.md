@@ -23,17 +23,20 @@ ALTER TABLE bank_churn RENAME TO customer_information;
 ```
 
 
-🔍 2. Data Exploration
-2.1 View Column Types
-sql
-Copy code
+**Data Exploration**
+-- View Column Types
+
+```sql
 SELECT 
     column_name, 
     data_type
 FROM information_schema.columns
 WHERE table_name = 'Customer_information';
-2.2 Data Completeness & Null Check
-sql
+```
+
+-- Data Completeness & Null Check
+
+```sql
 Copy code
 SELECT COUNT(*) AS total_rows, 
 COUNT(DISTINCT CustomerId) AS unique_customers, 
@@ -42,6 +45,8 @@ SUM(CASE WHEN CreditScore IS NULL THEN 1 ELSE 0 END) AS null_credit_score,
 SUM(CASE WHEN Geography IS NULL THEN 1 ELSE 0 END) AS null_geography, 
 SUM(CASE WHEN Gender IS NULL THEN 1 ELSE 0 END) AS null_gender
 FROM Customer_information;
+```
+
 2.3 Duplicate Detection
 sql
 Copy code

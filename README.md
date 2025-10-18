@@ -130,9 +130,11 @@ GROUP BY
 END;
 ```
 
-3. Data Cleaning
-3.1 Remove Duplicate Records
-sql
+**Data Cleaning**
+
+-- Remove Duplicate Records
+
+```sql
 Copy code
 WITH duplicates AS (
     SELECT 
@@ -146,44 +148,45 @@ WHERE CustomerId IN (
     FROM duplicates
     WHERE rn > 1
 );
-3.2 Standardize Categorical Columns
-sql
-Copy code
+```
+
+-- Standardize Categorical Columns
+```sql
 UPDATE Customer_information
 SET Gender = CONCAT(UCASE(LEFT(TRIM(Gender), 1)), LCASE(SUBSTRING(TRIM(Gender), 2)));
-
+```
+```sql
 UPDATE Customer_information
 SET Geography = CONCAT(UPPER(LEFT(TRIM(Geography), 1)), LOWER(SUBSTRING(TRIM(Geography), 2)));
 Normalize Binary Fields
+```
 
-sql
-Copy code
+```sql
 UPDATE Customer_information
 SET HasCrCard = CASE 
                     WHEN HasCrCard IN ('1', 'Yes', 'Y') THEN 'Yes'
                     WHEN HasCrCard IN ('0', 'No', 'N') THEN 'No'
                     ELSE NULL
                 END;
-
+```sql
 UPDATE Customer_information
 SET IsActiveMember = CASE 
                         WHEN IsActiveMember IN ('1', 'Yes', 'Y') THEN 'Yes'
                         WHEN IsActiveMember IN ('0', 'No', 'N') THEN 'No'
                         ELSE NULL
                      END;
-3.3 Handle Missing Values
+```
+
+-- Handle Missing Values
 Option 1: Remove rows with critical nulls
 
-sql
-Copy code
+```sql
 DELETE FROM Customer_information 
 WHERE CustomerId IS NULL
    OR CreditScore IS NULL
    OR Geography IS NULL;
 Option 2: Median Imputation (PostgreSQL/MySQL 8+)
 
-sql
-Copy code
 WITH medians AS (
     SELECT 
         PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY CreditScore) AS median_credit,
@@ -191,8 +194,11 @@ WITH medians AS (
         PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY Balance) AS median_balance
     FROM Customer_information
 );
-3.4 Logical Consistency Checks
-sql
+```
+
+-- Logical Consistency Checks
+
+```sql
 Copy code
 UPDATE Customer_information
 SET Age = 18
@@ -205,27 +211,32 @@ WHERE Balance < 0;
 UPDATE Customer_information
 SET NumOfProducts = 1
 WHERE NumOfProducts <= 0;
+```
+**Advanced Data Checks**
 
-4. Advanced Data Checks
-4.1 Outlier Detection (Z-score Method)
-sql
-Copy code
+-- Outlier Detection (Z-score Method)
+
+```sql
 SELECT *
 FROM Customer_information
 WHERE ABS((CreditScore - (SELECT AVG(CreditScore) FROM Customer_information)) / (SELECT STDDEV(CreditScore) FROM Customer_information)) > 3
    OR ABS((Balance - (SELECT AVG(Balance) FROM Customer_information)) / (SELECT STDDEV(Balance) FROM Customer_information)) > 3
    OR ABS((EstimatedSalary - (SELECT AVG(EstimatedSalary) FROM Customer_information)) / (SELECT STDDEV(EstimatedSalary) FROM Customer_information)) > 3;
-4.2 Cross-Field Consistency
-sql
-Copy code
+```
+
+-- Cross-Field Consistency
+
+```sql
 SELECT *
 FROM Customer_information
 WHERE Exited = 1 AND IsActiveMember = 'Yes';
-🧾 5. Final Clean Dataset
+```
+
+**Final Clean Dataset**
+
 After cleaning and validation, the refined dataset is stored in a new table:
 
-sql
-Copy code
+```sql
 CREATE TABLE Customers_Clean AS
 SELECT CustomerId,
        Surname,
@@ -241,9 +252,10 @@ SELECT CustomerId,
        EstimatedSalary,
        Exited
 FROM Customer_information;
+```
 
-Summary of Process
-Step	Description
+**Summary of Process**
+Step
 1	Created database and imported customer churn data
 2	Performed data profiling (types, nulls, duplicates, distributions)
 3	Standardized and cleaned categorical and numerical fields
@@ -251,7 +263,7 @@ Step	Description
 5	Identified outliers and inconsistencies
 6	Created a clean final dataset ready for analysis
 
-Insights
+**Insights**
 Cleaned and standardized over 12 columns for consistent data quality
 
 Removed duplicates and invalid entries to ensure one record per customer
@@ -261,7 +273,7 @@ Standardized categorical values such as Gender, Geography, and HasCrCard
 Identified potential data quality issues such as outliers in salary and balance
 
 Tools Used
-	MySQL Workbench for SQL scripting
- 	SQL Window Functions for deduplication
-	Conditional CASE logic for categorical normalization
-	Aggregate and analytical queries for data profiling and validation
+- MySQL Workbench for SQL scripting
+- SQL Window Functions for deduplication
+- Conditional CASE logic for categorical normalization
+- Aggregate and analytical queries for data profiling and validation

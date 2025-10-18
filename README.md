@@ -155,6 +155,7 @@ WHERE CustomerId IN (
 UPDATE Customer_information
 SET Gender = CONCAT(UCASE(LEFT(TRIM(Gender), 1)), LCASE(SUBSTRING(TRIM(Gender), 2)));
 ```
+
 ```sql
 UPDATE Customer_information
 SET Geography = CONCAT(UPPER(LEFT(TRIM(Geography), 1)), LOWER(SUBSTRING(TRIM(Geography), 2)));
@@ -168,6 +169,8 @@ SET HasCrCard = CASE
                     WHEN HasCrCard IN ('0', 'No', 'N') THEN 'No'
                     ELSE NULL
                 END;
+```
+
 ```sql
 UPDATE Customer_information
 SET IsActiveMember = CASE 
@@ -256,12 +259,12 @@ FROM Customer_information;
 
 **Summary of Process**
 Step
-1	Created database and imported customer churn data
-2	Performed data profiling (types, nulls, duplicates, distributions)
-3	Standardized and cleaned categorical and numerical fields
-4	Handled missing values and logical inconsistencies
-5	Identified outliers and inconsistencies
-6	Created a clean final dataset ready for analysis
+- Created database and imported customer churn data
+- Performed data profiling (types, nulls, duplicates, distributions)
+- Standardized and cleaned categorical and numerical fields
+- Handled missing values and logical inconsistencies
+- Identified outliers and inconsistencies
+- Created a clean final dataset ready for analysis
 
 **Insights**
 Cleaned and standardized over 12 columns for consistent data quality

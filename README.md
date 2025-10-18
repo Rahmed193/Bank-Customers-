@@ -1,16 +1,16 @@
 # Bank-Customers-
 This project demonstrates a complete SQL-based data exploration and cleaning workflow using a customer churn dataset from a retail bank. The goal is to prepare raw customer data for analysis by ensuring data integrity, consistency, and accuracy.
 
-# 🧹 Customer Data Cleaning and Exploration (SQL Project)
+# Customer Data Cleaning and Exploration (SQL Project)
 
-📁 **Database:** `CustomerData`
+**Database:** `CustomerData`
 
 This project demonstrates a full **SQL workflow** for data exploration, cleaning, and validation of a **customer churn dataset**.  
 The dataset includes key banking attributes such as customer demographics, account information, and churn status.
 
 ---
 
-## 🧱 1. Database Setup
+## 1. Database Setup
 
 ```sql
 CREATE DATABASE CustomerData;
@@ -188,7 +188,8 @@ WHERE Balance < 0;
 UPDATE Customer_information
 SET NumOfProducts = 1
 WHERE NumOfProducts <= 0;
-📊 4. Advanced Data Checks
+
+4. Advanced Data Checks
 4.1 Outlier Detection (Z-score Method)
 sql
 Copy code
@@ -223,7 +224,8 @@ SELECT CustomerId,
        EstimatedSalary,
        Exited
 FROM Customer_information;
-📈 Summary of Process
+
+Summary of Process
 Step	Description
 1	Created database and imported customer churn data
 2	Performed data profiling (types, nulls, duplicates, distributions)
@@ -232,7 +234,7 @@ Step	Description
 5	Identified outliers and inconsistencies
 6	Created a clean final dataset ready for analysis
 
-🧠 Insights
+Insights
 Cleaned and standardized over 12 columns for consistent data quality
 
 Removed duplicates and invalid entries to ensure one record per customer
@@ -241,11 +243,8 @@ Standardized categorical values such as Gender, Geography, and HasCrCard
 
 Identified potential data quality issues such as outliers in salary and balance
 
-✅ Tools Used
-🧰 MySQL Workbench for SQL scripting
-
-🪄 SQL Window Functions for deduplication
-
-⚙️ Conditional CASE logic for categorical normalization
-
-📊 Aggregate and analytical queries for data profiling and validation
+Tools Used
+	MySQL Workbench for SQL scripting
+ 	SQL Window Functions for deduplication
+	Conditional CASE logic for categorical normalization
+	Aggregate and analytical queries for data profiling and validation

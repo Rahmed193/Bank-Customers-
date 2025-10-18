@@ -1,7 +1,7 @@
 # Bank-Customers-
 This project demonstrates a complete SQL-based data exploration and cleaning workflow using a customer churn dataset from a retail bank. The goal is to prepare raw customer data for analysis by ensuring data integrity, consistency, and accuracy.
 
-# Customer Data Cleaning and Exploration (SQL Project)
+#Customer Data Cleaning and Exploration (SQL Project)
 
 **Database:** `CustomerData`
 
@@ -14,11 +14,15 @@ The dataset includes key banking attributes such as customer demographics, accou
 
 ```sql
 CREATE DATABASE CustomerData;
+```
+
 The dataset bank_churn is imported and renamed for clarity:
 
-sql
-Copy code
+```sql
 ALTER TABLE bank_churn RENAME TO customer_information;
+```
+
+
 🔍 2. Data Exploration
 2.1 View Column Types
 sql
